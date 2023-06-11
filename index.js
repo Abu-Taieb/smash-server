@@ -31,7 +31,7 @@ async function run() {
     const classesCollection = client.db("smash").collection("classes");
     const instructorCollection = client.db("smash").collection("instructor")
 
-    
+    // Our Classes Data
     app.get('/classes', async(req, res) => {
         const result = await classesCollection.find().toArray();
         res.send(result);
