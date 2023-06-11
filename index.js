@@ -27,10 +27,11 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
-
+    // Our Collections 
     const classesCollection = client.db("smash").collection("classes");
     const instructorCollection = client.db("smash").collection("instructor")
 
+    
     app.get('/classes', async(req, res) => {
         const result = await classesCollection.find().toArray();
         res.send(result);
