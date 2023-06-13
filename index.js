@@ -43,6 +43,17 @@ async function run() {
     });
 
     // Add Class Collection
+    app.get('/addClass', async(req, res) => {
+      const email = req.query.email;
+      if(!email){
+        res.send([]);
+      }
+      const query = {email: email}
+      const result = await addClassCollection.find(query).toArray();
+      res.send(result);
+    });
+
+
     app.post("/addClass", async (req, res) => {
       const item = req.body;
       console.log(item);
