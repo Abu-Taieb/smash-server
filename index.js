@@ -29,7 +29,8 @@ async function run() {
 
     // Our Collections 
     const classesCollection = client.db("smash").collection("classes");
-    const instructorCollection = client.db("smash").collection("instructor")
+    const instructorCollection = client.db("smash").collection("instructor");
+    const addClassCollection = client.db("smash").collection("addClass");
 
     // Our Classes Data
     app.get('/classes', async(req, res) => {
@@ -43,6 +44,14 @@ async function run() {
         res.send(result);
     })
     
+    // Add Class Collection 
+    app.post('/addClass', async(res, req) => {
+      const item = req.body;
+      console.log(item);
+      const result = await addClassCollection.insertOne(item);
+      res.send(result)
+      
+    })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
