@@ -1,15 +1,13 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const express = require('express');
+const { MongoClient, ServerApiVersion } = require("mongodb");
+const express = require("express");
 const app = express();
-const cors = require('cors');
-require('dotenv').config()
+const cors = require("cors");
+require("dotenv").config();
 const port = process.env.PORT || 5000;
 
-
-// Middleware 
-app.use(cors())
-app.use(express.json())
-
+// Middleware
+app.use(cors());
+app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.gkyk9vk.mongodb.net/?retryWrites=true&w=majority`;
 
@@ -19,7 +17,7 @@ const client = new MongoClient(uri, {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
-  }
+  },
 });
 
 async function run() {
@@ -27,35 +25,36 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
-    // Our Collections 
+    // Our Collections
     const classesCollection = client.db("smash").collection("classes");
     const instructorCollection = client.db("smash").collection("instructor");
     const addClassCollection = client.db("smash").collection("addClass");
 
     // Our Classes Data
-    app.get('/classes', async(req, res) => {
-        const result = await classesCollection.find().toArray();
-        res.send(result);
-    })
+    app.get("/classes", async (req, res) => {
+      const result = await classesCollection.find().toArray();
+      res.send(result);
+    });
 
-    // Our Instructed Data 
-    app.get('/instructor', async(req, res) => {
-        const result = await instructorCollection.find().toArray();
-        res.send(result);
-    })
-    
-    // Add Class Collection 
-    app.post('/addClass', async(res, req) => {
+    // Our Instructed Data
+    app.get("/instructor", async (req, res) => {
+      const result = await instructorCollection.find().toArray();
+      res.send(result);
+    });
+
+    // Add Class Collection
+    app.post("/addClass", async (req, res) => {
       const item = req.body;
       console.log(item);
       const result = await addClassCollection.insertOne(item);
-      res.send(result)
-      
-    })
+      res.send(result);
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    console.log(
+      "Pinged your deployment. You successfully connected to MongoDB!"
+    );
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
@@ -63,12 +62,10 @@ async function run() {
 }
 run().catch(console.dir);
 
-
-
-app.get('/', (req, res) => {
-    res.send('Server is Running')
-})
+app.get("/", (req, res) => {
+  res.send("Server is Running");
+});
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-})
+  console.log(`Server is running on port ${port}`);
+});
